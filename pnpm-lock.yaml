@@ -21,6 +21,9 @@ dependencies:
     version: 3.3.3
 
 devDependencies:
+  '@jest/globals':
+    specifier: 29.6.1
+    version: 29.6.1
   '@trivago/prettier-plugin-sort-imports':
     specifier: 4.1.1
     version: 4.1.1(prettier@2.8.8)
