@@ -34,7 +34,7 @@ const eslintConfig = {
       {
         patterns: [
           {
-            group: ['.*'],
+            group: ['.*[t|j]sx?$', '.*[t|j]sx?/.*'],
             message: `Relative imports are not allowed use the '@/' alias instead.`,
           },
         ],
