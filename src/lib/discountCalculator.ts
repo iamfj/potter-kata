@@ -1,6 +1,7 @@
+import { CartItem, getBookIds } from '@/data/cart';
 import { Discount, getDiscountForBooks } from '@/data/discount';
 
-export class Calculator {
+export class DiscountCalculator {
   private discounts: Discount[];
   private memo: Record<string, number> = {};
 
@@ -43,10 +44,10 @@ export class Calculator {
     return minPrice;
   }
 
-  calculatePrice(books: number[]): number {
+  calculateDiscountForCart(cartItems: CartItem[]): number {
     const counts: number[] = [];
     for (let i = 0; i < 5; i++) {
-      counts.push(books.filter((book) => book === i).length);
+      counts.push(getBookIds(cartItems).filter((book) => book === i).length);
     }
     const filteredCounts = counts.filter((count) => count > 0);
     return this.price(filteredCounts);
