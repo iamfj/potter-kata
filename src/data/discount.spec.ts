@@ -1,123 +1,53 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { Discount, Discounts, getValues } from '@/data/discount';
+import { Discount, Discounts, getDiscountForBooks } from '@/data/discount';
 
 describe(`discounts`, () => {
+  const discount5: Discount = {
+    books: 2,
+    discount: 0.05,
+    label: `5%`,
+  };
+
+  const discount10: Discount = {
+    books: 3,
+    discount: 0.1,
+    label: `10%`,
+  };
+
+  const discount20: Discount = {
+    books: 4,
+    discount: 0.2,
+    label: `20%`,
+  };
+
+  const discount25: Discount = {
+    books: 5,
+    discount: 0.25,
+    label: `25%`,
+  };
+
   it(`should return expected static discounts`, () => {
-    expect(Discounts).toEqual([
-      {
-        books: 0,
-      },
-      {
-        books: 1,
-        discount: false,
-      },
-      {
-        books: 2,
-        discount: 0.05,
-        label: `5%`,
-      },
-      {
-        books: 3,
-        discount: 0.1,
-        label: `10%`,
-      },
-      {
-        books: 4,
-        discount: 0.2,
-        label: `20%`,
-      },
-      {
-        books: 5,
-        discount: 0.25,
-        label: `25%`,
-      },
-    ]);
+    expect(Discounts).toEqual([discount5, discount10, discount20, discount25]);
   });
 
-  describe.each<[string, Discount[], number[]]>([
-    [
-      `with no discounts`,
-      [
-        {
-          books: 0,
-        },
-        {
-          books: 1,
-          discount: false,
-        },
-      ],
-      [0, 1],
-    ],
-    [
-      `with all discounts in order`,
-      [
-        {
-          books: 0,
-        },
-        {
-          books: 1,
-          discount: false,
-        },
-        {
-          books: 2,
-          discount: 0.05,
-          label: `5%`,
-        },
-        {
-          books: 3,
-          discount: 0.1,
-          label: `10%`,
-        },
-        {
-          books: 4,
-          discount: 0.2,
-          label: `20%`,
-        },
-        {
-          books: 5,
-          discount: 0.25,
-          label: `25%`,
-        },
-      ],
-      [0, 1, 0.95, 0.9, 0.8, 0.75],
-    ],
-    [
-      `with all discounts in mixed order`,
-      [
-        {
-          books: 5,
-          discount: 0.25,
-          label: `25%`,
-        },
-        {
-          books: 0,
-        },
-        {
-          books: 2,
-          discount: 0.05,
-          label: `5%`,
-        },
-        {
-          books: 4,
-          discount: 0.2,
-          label: `20%`,
-        },
-        {
-          books: 3,
-          discount: 0.1,
-          label: `10%`,
-        },
-        {
-          books: 1,
-          discount: false,
-        },
-      ],
-      [0, 1, 0.95, 0.9, 0.8, 0.75],
-    ],
-  ])(`getValues %s`, (_, discounts, expectedValues) => {
+  describe.each<[number, Discount[], Discount | undefined]>([
+    [0, [discount10, discount25], undefined],
+    [1, [discount10, discount25], undefined],
+    [2, [discount10, discount25], undefined],
+    [3, [discount10, discount25], discount10],
+    [4, [discount10, discount25], undefined],
+    [5, [discount10, discount25], discount25],
+    [0, [discount5, discount10, discount20, discount25], undefined],
+    [1, [discount5, discount10, discount20, discount25], undefined],
+    [2, [discount5, discount10, discount20, discount25], discount5],
+    [3, [discount5, discount10, discount20, discount25], discount10],
+    [4, [discount5, discount10, discount20, discount25], discount20],
+    [5, [discount5, discount10, discount20, discount25], discount25],
+    [6, [discount5, discount10, discount20, discount25], undefined],
+  ])(`getDiscountForBooks(%i)`, (books, discounts, expectedDiscount) => {
     it(`should return correct sorted discount values`, () => {
-      expect(getValues(discounts)).toEqual(expectedValues);
+      expect(getDiscountForBooks(discounts, books)).toEqual(expectedDiscount);
     });
   });
 });

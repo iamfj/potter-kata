@@ -1,8 +1,10 @@
+import { Discount, getDiscountForBooks } from '@/data/discount';
+
 export class Calculator {
-  private discounts: number[];
+  private discounts: Discount[];
   private memo: Record<string, number> = {};
 
-  constructor(discounts: number[]) {
+  constructor(discounts: Discount[]) {
     this.discounts = discounts;
   }
 
@@ -18,13 +20,21 @@ export class Calculator {
 
     let minPrice = Infinity;
     for (let i = 1; i <= counts.length; i++) {
+      let discount = getDiscountForBooks(this.discounts, i)?.discount;
+      if (discount) {
+        discount = 1 - discount;
+      } else {
+        // No discount (just multipied by 1)
+        discount = 1;
+      }
+
       for (let j = 0; j <= counts.length - i; j++) {
         const newCounts = [...counts];
         for (let k = j; k < j + i; k++) {
           newCounts[k]--;
         }
         const filteredCounts = newCounts.filter((count) => count > 0);
-        const price = i * 8 * this.discounts[i] + this.price(filteredCounts);
+        const price = i * 8 * discount + this.price(filteredCounts);
         minPrice = Math.min(minPrice, price);
       }
     }

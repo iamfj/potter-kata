@@ -11,7 +11,28 @@ describe(`calculator`, () => {
   });
 
   describe(`calculatePrice`, () => {
-    const calculator = new Calculator([0, 1, 0.95, 0.9, 0.8, 0.75]);
+    const calculator = new Calculator([
+      {
+        books: 2,
+        discount: 0.05,
+        label: `5%`,
+      },
+      {
+        books: 3,
+        discount: 0.1,
+        label: `10%`,
+      },
+      {
+        books: 4,
+        discount: 0.2,
+        label: `20%`,
+      },
+      {
+        books: 5,
+        discount: 0.25,
+        label: `25%`,
+      },
+    ]);
 
     it.each([
       [[], 0],
@@ -34,7 +55,7 @@ describe(`calculator`, () => {
         3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8),
       ],
     ])(`.calculatePrice(%s) and expect it to be %i`, (books, expected) => {
-      expect(calculator.calculatePrice(books)).toBe(expected);
+      expect(calculator.calculatePrice(books)).toEqual(expected);
     });
   });
 });

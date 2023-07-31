@@ -1,17 +1,10 @@
 export type Discount = {
   books: number;
-  discount?: number | undefined | false;
-  label?: string | undefined;
+  discount: number;
+  label: string;
 };
 
 export const Discounts: Discount[] = [
-  {
-    books: 0,
-  },
-  {
-    books: 1,
-    discount: false,
-  },
   {
     books: 2,
     discount: 0.05,
@@ -34,10 +27,9 @@ export const Discounts: Discount[] = [
   },
 ];
 
-export function getValues(discounts: Discount[]): number[] {
-  return discounts
-    .sort((a, b) => a.books - b.books)
-    .map(({ discount }) =>
-      discount === undefined ? 0 : discount === false ? 1 : 1 - discount,
-    );
+export function getDiscountForBooks(
+  discounts: Discount[],
+  books: number,
+): Discount | undefined {
+  return discounts.find((discount) => discount.books === books) || undefined;
 }
