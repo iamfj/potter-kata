@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 import './globals.css';
 
@@ -19,35 +20,33 @@ export default function RootLayout({
 }) {
   return (
     <html lang={`en`}>
-      <body className={inter.className}>
-        {children}
+      <body className={twMerge(inter.className, `h-screen w-screen`)}>
         <div
-          className={`fixed bottom-0 left-0 right-0 p-4 text-center text-sm text-gray-900`}
+          className={`flex min-h-screen flex-col items-center justify-center bg-gray-100 text-gray-800`}
         >
-          solved by{` `}
-          <Link
-            className={`text-blue-800 hover:text-blue-400`}
-            href={`https://github.com/iamfj`}
-            target={`_blank`}
-          >
-            fabian jocks
-          </Link>
-          {` `}|{` `}
-          <Link
-            className={`text-blue-800 hover:text-blue-400`}
-            href={`https://github.com/iamfj/potter-kata`}
-            target={`_blank`}
-          >
-            open this project on github
-          </Link>
-          {` `}|{` `}Credits to{` `}
-          <Link
-            className={`text-blue-800 hover:text-blue-400`}
-            href={`https://codingdojo.org/kata/Potter/`}
-            target={`_blank`}
-          >
-            the original challenge
-          </Link>
+          {children}
+          <div className={`my-6 flex divide-x-2 divide-gray-300 text-sm`}>
+            <span className={`px-4`}>
+              &copy; 2023 by{` `}
+              <Link
+                className={`border-b-2 border-dotted border-gray-800 hover:border-solid`}
+                href={`https://github.com/iamfj`}
+                target={`_blank`}
+              >
+                Fabian Jocks
+              </Link>
+            </span>
+            <span className={`px-4`}>
+              Images by{` `}
+              <Link
+                className={`border-b-2 border-dotted border-gray-800 hover:border-solid`}
+                href={`https://buecher.de`}
+                target={`_blank`}
+              >
+                buecher.de
+              </Link>
+            </span>
+          </div>
         </div>
       </body>
     </html>
