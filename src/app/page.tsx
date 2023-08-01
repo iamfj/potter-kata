@@ -1,6 +1,7 @@
 'use client';
 
-import { AddCircle, Github, Markup } from '@styled-icons/remix-fill';
+import { Github, Markup } from '@styled-icons/remix-fill';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Books } from '@/data/book';
@@ -11,7 +12,6 @@ import { useCartItems } from '@/hooks/useCartItems';
 export default function ShoppingCart() {
   const {
     cartItems,
-    addToCart,
     removeFromCart,
     changeQuantity,
     calculateTotal,
@@ -76,17 +76,6 @@ export default function ShoppingCart() {
               size={`30`}
             />
           </Link>
-          <Link
-            className={`group box-border hidden rounded-xl border-2 border-green-500 p-1 duration-300 ease-in-out hover:bg-green-500`}
-            href={`https://github.com/iamfj/potter-kata`}
-            target={`_blank`}
-            title={`Add a new book to the cart`}
-          >
-            <AddCircle
-              className={`fill-green-500 duration-300 ease-in-out group-hover:fill-white`}
-              size={`32`}
-            />
-          </Link>
         </div>
       </div>
       {cartItems.length === 0 ? (
@@ -96,7 +85,13 @@ export default function ShoppingCart() {
           {cartItems.map(
             ({ book: { id, name, cover, author, price }, quantity }) => (
               <div className={`mb-4 flex items-center`} key={id}>
-                <img alt={name} className={`w-24 rounded`} src={cover} />
+                <Image
+                  alt={name}
+                  className={`w-24 rounded-lg`}
+                  height={144}
+                  src={cover}
+                  width={96}
+                />
                 <div className={`ml-4`}>
                   <h2 className={`font-semibold`}>{name}</h2>
                   <p className={`text-sm text-gray-500`}>{author}</p>
