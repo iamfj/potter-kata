@@ -1,67 +1,148 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+
+import { CartContext } from '@/contexts/cartContext';
 
 export function AddDiscountDialog({ children }: PropsWithChildren) {
+  const { discounts, setDiscounts } = useContext(CartContext);
+  const [label, setLabel] = useState<string | undefined>(undefined);
+  const [quantity, setQuantity] = useState<number | undefined>(undefined);
+  const [discount, setDiscount] = useState<number | undefined>(undefined);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsCompleted(
+      label !== undefined && quantity !== undefined && discount !== undefined,
+    );
+  }, [label, quantity, discount]);
+
+  const reset = () => {
+    setLabel(undefined);
+    setQuantity(undefined);
+    setDiscount(undefined);
+  };
+
+  const onClickAdd = () => {
+    const discountPercentage = (discount ?? 0) / 100;
+
+    if (
+      discounts.filter((discount) => discount.quantity === quantity).length !==
+      0
+    ) {
+      setDiscounts(
+        discounts.map((_discount) => {
+          if (_discount.quantity === quantity) {
+            return {
+              label: label ?? ``,
+              quantity: quantity ?? 0,
+              discount: discountPercentage,
+            };
+          }
+          return _discount;
+        }),
+      );
+    } else {
+      setDiscounts(
+        discounts.concat({
+          label: label ?? ``,
+          quantity: quantity ?? 0,
+          discount: discountPercentage,
+        }),
+      );
+    }
+  };
+
   return (
-    <Dialog.Root>
+    <Dialog.Root modal={true} onOpenChange={reset}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay
           className={`fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow`}
         />
         <Dialog.Content
-          className={`fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow`}
+          className={`fixed left-[50%] top-[10%] translate-x-[-50%] rounded-xl bg-white p-6 text-gray-900`}
         >
-          <Dialog.Title className={`m-0 text-[17px] font-medium text-mauve12`}>
-            Edit profile
+          <Dialog.Title className={`m-0 text-xl font-semibold text-black`}>
+            Add Discount
           </Dialog.Title>
           <Dialog.Description
-            className={`mb-5 mt-[10px] text-[15px] leading-normal text-mauve11`}
+            className={`text-md mb-5 mt-2 leading-normal text-gray-500`}
           >
-            Make changes to your profile here. Click save when you're done.
+            Add discount to your cart
           </Dialog.Description>
-          <fieldset className={`mb-[15px] flex items-center gap-5`}>
-            <label
-              className={`w-[90px] text-right text-[15px] text-violet11`}
-              htmlFor={`name`}
-            >
-              Name
+
+          <fieldset className={`mb-3 flex items-center gap-5`}>
+            <label className={`text-md w-24 text-right`} htmlFor={`label`}>
+              Label
             </label>
             <input
-              className={`inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 outline-none focus:shadow-[0_0_0_2px] focus:shadow-violet8`}
-              defaultValue={`Pedro Duarte`}
-              id={`name`}
+              className={`text-md inline-flex w-full flex-1 items-center justify-center rounded-md border border-gray-400 px-4 py-2 focus:border-gray-500 focus:outline-none`}
+              id={`label`}
+              placeholder={`10% off`}
+              type={`text`}
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
             />
           </fieldset>
-          <fieldset className={`mb-[15px] flex items-center gap-5`}>
-            <label
-              className={`w-[90px] text-right text-[15px] text-violet11`}
-              htmlFor={`username`}
-            >
-              Username
+
+          <fieldset className={`mb-3 flex items-center gap-5`}>
+            <label className={`text-md w-24 text-right`} htmlFor={`quantity`}>
+              Quantity <span className={`block text-xs`}>num. of Books</span>
             </label>
             <input
-              className={`inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 outline-none focus:shadow-[0_0_0_2px] focus:shadow-violet8`}
-              defaultValue={`@peduarte`}
-              id={`username`}
+              className={`text-md inline-flex w-full flex-1 items-center justify-center rounded-md border border-gray-400 px-4 py-2 focus:border-gray-500 focus:outline-none`}
+              id={`quantity`}
+              min={1}
+              placeholder={`2`}
+              step={1}
+              type={`number`}
+              value={quantity}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
           </fieldset>
-          <div className={`mt-[25px] flex justify-end`}>
+
+          <fieldset className={`mb-3 flex items-center gap-5`}>
+            <label className={`text-md w-24 text-right`} htmlFor={`discount`}>
+              Discount <span className={`block text-xs`}>in %</span>
+            </label>
+            <input
+              className={`text-md inline-flex w-full flex-1 items-center justify-center rounded-md border border-gray-400 px-4 py-2 focus:border-gray-500 focus:outline-none`}
+              id={`discount`}
+              min={1}
+              placeholder={`10`}
+              step={1}
+              type={`number`}
+              value={discount}
+              onChange={(e) => setDiscount(parseInt(e.target.value))}
+            />
+          </fieldset>
+
+          <div className={`mt-4 flex`}>
             <Dialog.Close asChild>
               <button
-                className={`inline-flex h-[35px] items-center justify-center rounded-[4px] bg-green4 px-[15px] font-medium leading-none text-green11 hover:bg-green5 focus:shadow-[0_0_0_2px] focus:shadow-green7 focus:outline-none`}
+                className={twMerge(
+                  `w-full items-center justify-center rounded-lg bg-green4 px-6 py-2 font-medium text-green-800 hover:bg-green-100 focus:outline-none`,
+                  !isCompleted && `cursor-not-allowed opacity-50`,
+                )}
+                disabled={!isCompleted}
+                onClick={onClickAdd}
               >
-                Save changes
+                Add discount
               </button>
             </Dialog.Close>
           </div>
           <Dialog.Close asChild>
             <button
               aria-label={`Close`}
-              className={`absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none`}
+              className={`absolute right-4 top-4 inline-flex`}
             >
-              <Cross2Icon />
+              <Cross2Icon
+                className={`text-gray-400 hover:text-gray-600`}
+                height={18}
+                width={18}
+              />
             </button>
           </Dialog.Close>
         </Dialog.Content>

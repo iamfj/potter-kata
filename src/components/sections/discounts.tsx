@@ -1,32 +1,45 @@
+import { useContext } from 'react';
+
+import { CartContext } from '@/contexts/cartContext';
+
 export function DiscountSection() {
+  const { discounts, setDiscounts } = useContext(CartContext);
+
+  const onClickDelete = (discount: number, quantity: number) => {
+    setDiscounts(
+      discounts.filter(
+        (_discount) =>
+          _discount.discount !== discount && _discount.quantity !== quantity,
+      ),
+    );
+  };
+
   return (
     <>
-      <p className={`Text`}>
-        Change your password here. After saving, you'll be logged out.
-      </p>
-      <fieldset className={`Fieldset`}>
-        <label className={`Label`} htmlFor={`currentPassword`}>
-          Current password
-        </label>
-        <input className={`Input`} id={`currentPassword`} type={`password`} />
-      </fieldset>
-      <fieldset className={`Fieldset`}>
-        <label className={`Label`} htmlFor={`newPassword`}>
-          New password
-        </label>
-        <input className={`Input`} id={`newPassword`} type={`password`} />
-      </fieldset>
-      <fieldset className={`Fieldset`}>
-        <label className={`Label`} htmlFor={`confirmPassword`}>
-          Confirm password
-        </label>
-        <input className={`Input`} id={`confirmPassword`} type={`password`} />
-      </fieldset>
-      <div
-        style={{ display: `flex`, marginTop: 20, justifyContent: `flex-end` }}
-      >
-        <button className={`Button green`}>Change password</button>
-      </div>
+      {discounts.length === 0 && (
+        <div className={`block`}>
+          <p className={`text-gray-600`}>No discounts added.</p>
+        </div>
+      )}
+
+      {discounts.map(({ label, quantity, discount }) => {
+        return (
+          <div className={`flex items-center justify-between border-b p-4`}>
+            <div>
+              <h3 className={`text-lg font-semibold`}>{label}</h3>
+              <p className={`text-gray-600`}>{`Discount: ${
+                discount * 100
+              }% | Quantity: ${quantity}`}</p>
+            </div>
+            <button
+              className={`text-red-600 hover:text-red-800 focus:outline-none`}
+              onClick={() => onClickDelete(discount, quantity)}
+            >
+              Delete
+            </button>
+          </div>
+        );
+      })}
     </>
   );
 }

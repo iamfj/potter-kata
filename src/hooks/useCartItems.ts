@@ -54,7 +54,6 @@ export const useCartItems = ({
   };
 
   return {
-    items,
     addToCart,
     removeFromCart,
     changeQuantity,

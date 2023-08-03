@@ -41,22 +41,22 @@ export default function Page() {
   ]);
   const [discounts, setDiscounts] = useState<Discount[]>([
     {
-      books: 2,
+      quantity: 2,
       discount: 0.05,
       label: `5%`,
     },
     {
-      books: 3,
+      quantity: 3,
       discount: 0.1,
       label: `10%`,
     },
     {
-      books: 4,
+      quantity: 4,
       discount: 0.2,
       label: `20%`,
     },
     {
-      books: 5,
+      quantity: 5,
       discount: 0.25,
       label: `25%`,
     },

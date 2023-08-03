@@ -9,7 +9,6 @@ import { useCartItems } from '@/hooks/useCartItems';
 export function CartSection(): React.ReactElement {
   const cartContext = useContext(CartContext);
   const {
-    items,
     removeFromCart,
     changeQuantity,
     calculateTotal,
@@ -17,6 +16,7 @@ export function CartSection(): React.ReactElement {
     calculateItemTotal,
   } = useCartItems(cartContext);
 
+  const { items, discounts } = cartContext;
   const [total, setTotal] = useState(calculateTotal());
   const [discounted, setDiscounted] = useState(calculateDiscounted());
   const [isDiscounted, setIsDiscounted] = useState(
@@ -27,7 +27,8 @@ export function CartSection(): React.ReactElement {
     setTotal(calculateTotal());
     setDiscounted(calculateDiscounted());
     setIsDiscounted(discounted != 0 && discounted < total);
-  }, [cartContext.items, cartContext.discounts]);
+    console.log(discounts);
+  }, [items, discounts]);
 
   return (
     <div>
