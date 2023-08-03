@@ -59,6 +59,7 @@ export function AddItemDialog({ children }: PropsWithChildren) {
             {Books.map((book) => (
               <div
                 className={`relative cursor-pointer`}
+                key={book.id}
                 onClick={() => {
                   if (selectedBook === book.id) {
                     setSelectedBook(undefined);
