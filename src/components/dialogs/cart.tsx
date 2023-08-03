@@ -77,7 +77,7 @@ export function AddItemDialog({ children }: PropsWithChildren) {
                 />
                 <div
                   className={twMerge(
-                    `absolute bottom-0 left-0 right-0 top-0 h-full w-full rounded-lg bg-gray-800 opacity-0`,
+                    `absolute bottom-0 left-0 right-0 top-0 h-full w-full rounded-lg bg-gray-800 text-white opacity-0`,
                     book.id === selectedBook && `opacity-80`,
                   )}
                 >
