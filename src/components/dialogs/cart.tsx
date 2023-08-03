@@ -45,13 +45,13 @@ export function AddItemDialog({ children }: PropsWithChildren) {
           className={`fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow`}
         />
         <Dialog.Content
-          className={`fixed left-[50%] top-[10%] translate-x-[-50%] rounded-xl bg-white p-6`}
+          className={`fixed left-[50%] top-[10%] translate-x-[-50%] rounded-xl bg-white p-6 text-gray-900`}
         >
           <Dialog.Title className={`m-0 text-xl font-semibold text-black`}>
             Add Item
           </Dialog.Title>
           <Dialog.Description
-            className={`mb-5 mt-[10px] text-[15px] leading-normal text-mauve11`}
+            className={`text-md mb-5 mt-2 leading-normal text-gray-500`}
           >
             Add a book to your cart
           </Dialog.Description>
