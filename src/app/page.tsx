@@ -43,22 +43,22 @@ export default function Page() {
     {
       quantity: 2,
       discount: 0.05,
-      label: `5%`,
+      label: `5% off`,
     },
     {
       quantity: 3,
       discount: 0.1,
-      label: `10%`,
+      label: `10% off`,
     },
     {
       quantity: 4,
       discount: 0.2,
-      label: `20%`,
+      label: `20% off`,
     },
     {
       quantity: 5,
       discount: 0.25,
-      label: `25%`,
+      label: `25% off`,
     },
   ]);
 
