@@ -24,7 +24,10 @@ export function DiscountSection() {
 
       {discounts.map(({ label, quantity, discount }) => {
         return (
-          <div className={`flex items-center justify-between border-b p-4`}>
+          <div
+            className={`flex items-center justify-between border-b p-4`}
+            key={quantity}
+          >
             <div>
               <h3 className={`text-lg font-semibold`}>{label}</h3>
               <p className={`text-gray-600`}>{`Discount: ${
