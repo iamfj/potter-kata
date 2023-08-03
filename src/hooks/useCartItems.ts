@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 
+import { CartContext, CartContextType } from '@/contexts/cartContext';
 import { Book } from '@/data/book';
-import { CartItem } from '@/data/cart';
-import { Discount } from '@/data/discount';
 import { DiscountCalculator } from '@/lib/discountCalculator';
 
-export const useCartItems = (
-  initialState: CartItem[],
-  discounts: Discount[],
-) => {
+export const useCartItems = ({
+  items,
+  setItems,
+  discounts,
+}: Pick<CartContextType, 'items' | 'setItems' | 'discounts'>) => {
   const calculator = new DiscountCalculator(discounts);
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialState);
+  const {} = useContext(CartContext);
 
   const addToCart = (book: Book, quantity: number) => {
-    setCartItems([...cartItems, { book: book, quantity }]);
+    setItems([...items, { book: book, quantity }]);
   };
 
   const removeFromCart = (bookId: number) => {
-    setCartItems(cartItems.filter((item) => item.book.id !== bookId));
+    setItems(items.filter((item) => item.book.id !== bookId));
   };
 
   const changeQuantity = (bookId: number, quantity: number) => {
@@ -25,8 +25,8 @@ export const useCartItems = (
       return removeFromCart(bookId);
     }
 
-    setCartItems(
-      cartItems.map((item) => {
+    setItems(
+      items.map((item) => {
         if (item.book.id === bookId) {
           return { ...item, quantity };
         }
@@ -36,17 +36,17 @@ export const useCartItems = (
   };
 
   const calculateTotal = () => {
-    return cartItems
+    return items
       .map(({ book, quantity }) => book.price * quantity)
       .reduce((a, b) => a + b, 0);
   };
 
-  const calculateDiscountedTotal = () => {
-    return calculator.calculateDiscountForCart(cartItems);
+  const calculateDiscounted = () => {
+    return calculator.calculateDiscountForCart(items);
   };
 
   const calculateItemTotal = (bookId: number) => {
-    const item = cartItems.find((item) => item.book.id === bookId);
+    const item = items.find((item) => item.book.id === bookId);
     if (item) {
       return item.book.price * item.quantity;
     }
@@ -54,12 +54,11 @@ export const useCartItems = (
   };
 
   return {
-    cartItems,
     addToCart,
     removeFromCart,
     changeQuantity,
     calculateTotal,
-    calculateDiscountedTotal,
+    calculateDiscounted,
     calculateItemTotal,
   };
 };

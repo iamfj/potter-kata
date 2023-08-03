@@ -4,25 +4,25 @@ import { Discount, Discounts, getDiscountForBooks } from '@/data/discount';
 
 describe(`discounts`, () => {
   const discount5: Discount = {
-    books: 2,
+    quantity: 2,
     discount: 0.05,
     label: `5%`,
   };
 
   const discount10: Discount = {
-    books: 3,
+    quantity: 3,
     discount: 0.1,
     label: `10%`,
   };
 
   const discount20: Discount = {
-    books: 4,
+    quantity: 4,
     discount: 0.2,
     label: `20%`,
   };
 
   const discount25: Discount = {
-    books: 5,
+    quantity: 5,
     discount: 0.25,
     label: `25%`,
   };
