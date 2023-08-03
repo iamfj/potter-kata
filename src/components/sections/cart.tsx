@@ -40,7 +40,7 @@ export function CartSection(): React.ReactElement {
               <div className={`mb-4 flex items-center`} key={id}>
                 <Image
                   alt={name}
-                  className={`w-24 rounded-lg`}
+                  className={`rounded-lg`}
                   height={144}
                   src={cover}
                   width={96}

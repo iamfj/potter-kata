@@ -35,10 +35,10 @@ export function DiscountSection() {
               }% | Quantity: ${quantity}`}</p>
             </div>
             <button
-              className={`text-red-600 hover:text-red-800 focus:outline-none`}
+              className={`text-red-500 hover:text-red-600 focus:outline-none`}
               onClick={() => onClickDelete(discount, quantity)}
             >
-              Delete
+              Remove
             </button>
           </div>
         );

@@ -70,7 +70,7 @@ export function AddItemDialog({ children }: PropsWithChildren) {
               >
                 <Image
                   alt={book.name}
-                  className={`w-24 rounded-lg`}
+                  className={`rounded-lg`}
                   height={144}
                   src={book.cover}
                   width={96}
