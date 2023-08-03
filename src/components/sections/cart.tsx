@@ -17,16 +17,20 @@ export function CartSection(): React.ReactElement {
   } = useCartItems(cartContext);
 
   const { items, discounts } = cartContext;
-  const [total, setTotal] = useState(calculateTotal());
-  const [discounted, setDiscounted] = useState(calculateDiscounted());
+
+  const [total, setTotal] = useState(() => calculateTotal());
+  const [discounted, setDiscounted] = useState(() => calculateDiscounted());
   const [isDiscounted, setIsDiscounted] = useState(
-    discounted != 0 && discounted < total,
+    () => discounted != 0 && discounted < total,
   );
 
   useEffect(() => {
-    setTotal(calculateTotal());
-    setDiscounted(calculateDiscounted());
-    setIsDiscounted(discounted != 0 && discounted < total);
+    const newTotal = calculateTotal();
+    const newDiscounted = calculateDiscounted();
+
+    setTotal(newTotal);
+    setDiscounted(newDiscounted);
+    setIsDiscounted(newDiscounted != 0 && newDiscounted < newTotal);
   }, [items, discounts]);
 
   return (
