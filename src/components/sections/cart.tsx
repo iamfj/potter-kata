@@ -27,7 +27,6 @@ export function CartSection(): React.ReactElement {
     setTotal(calculateTotal());
     setDiscounted(calculateDiscounted());
     setIsDiscounted(discounted != 0 && discounted < total);
-    console.log(discounts);
   }, [items, discounts]);
 
   return (
